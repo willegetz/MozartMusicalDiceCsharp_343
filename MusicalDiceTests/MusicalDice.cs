@@ -9,6 +9,7 @@ namespace MusicalDiceTests
         // A measure is 3 beats and is 0 based. Measure 1 would be beat 0, 1, and 2 but not 3. Measure 144 would be beat 432, 422, and 434 but not 435.
         // Given a set of measures, extract the appropriate beats for a given measure.
 
+        [TestMethod]
         public void Measure1HasBeats0UpTo3()
         {
             // arrange: create a sample measure set with 3 beats whose starting time are whole numbers
