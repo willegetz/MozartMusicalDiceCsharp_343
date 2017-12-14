@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicalDiceTests", "MusicalDiceTests\MusicalDiceTests.csproj", "{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MozrtMusicalDice", "MozrtMusicalDice\MozrtMusicalDice.csproj", "{1BE3DED5-D20E-4D6D-B8E8-C01FBD910611}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE3DED5-D20E-4D6D-B8E8-C01FBD910611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE3DED5-D20E-4D6D-B8E8-C01FBD910611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE3DED5-D20E-4D6D-B8E8-C01FBD910611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE3DED5-D20E-4D6D-B8E8-C01FBD910611}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39C39B66-D683-42E7-B140-C27A556BB656}
+	EndGlobalSection
+EndGlobal
