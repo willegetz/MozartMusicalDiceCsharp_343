@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
+using System.IO;
 
 namespace MusicalDiceTests
 {
@@ -10,15 +11,14 @@ namespace MusicalDiceTests
         // A measure is 3 beats and is 0 based. Measure 1 would be beat 0, 1, and 2 but not 3. Measure 144 would be beat 432, 422, and 434 but not 435.
         // Given a set of measures, extract the appropriate beats for a given measure.
 
-        const string sampleMeasures = @"F3 0 1
-F5 0 1
-D3 1 1
-D5 1 1
-G3 2 1
-G5 2 1
-A4 3 1
-B2 3 2
-G3 3 2";
+        private static string sampleComposition;
+
+        [ClassInitialize]
+        public static void LoadSampleComposition(TestContext testContext)
+        {
+            var sampleCompositionFile = @".\..\..\..\MozartMusicalDice\Resources\mozart-dice-starting.txt";
+            sampleComposition = File.ReadAllText(sampleCompositionFile);
+        }
 
         [TestMethod]
         public void Measure1HasBeats0UpTo3()
@@ -41,7 +41,7 @@ G5 2 1";
             var beatsForMeasure = measure + measureLength;
 
             string separator = Environment.NewLine;
-            var measureArray = sampleMeasures.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var measureArray = sampleComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             var sb = new StringBuilder();
 
