@@ -35,10 +35,26 @@ G5 2 1";
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void Measure22HasBeats63To65()
+        {
+            var actual = RetrieveBeatsForMeasure(22);
+
+            var expected = @"C3 63 2
+E5 63 1
+C5 64 1
+G4 65 1";
+
+            Assert.AreEqual(expected, actual);
+        }
+
         private string RetrieveBeatsForMeasure(int measure)
         {
-            var measureLength = 2;
-            var beatsForMeasure = measure + measureLength;
+            var measureLength = 3;
+
+            var startOfMeasure = (measure -1) * measureLength;
+
+            var endOfMeasure = startOfMeasure + measureLength;
 
             string separator = Environment.NewLine;
             var measureArray = sampleComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
@@ -51,7 +67,7 @@ G5 2 1";
                 var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 var measureNumber = double.Parse(currentMeasureParts[1]);
 
-                if (measureNumber < beatsForMeasure)
+                if (measureNumber >= startOfMeasure && measureNumber < endOfMeasure)
                 {
                     sb.Append(currentMeasure).Append("\n");
                 }
