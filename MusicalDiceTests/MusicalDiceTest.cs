@@ -31,7 +31,7 @@ D3 1 1
 D5 1 1
 G3 2 1
 G5 2 1";
-            
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -44,6 +44,24 @@ G5 2 1";
 E5 63 1
 C5 64 1
 G4 65 1";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Measure176HasBeat525To528(){
+            var actual = RetrieveBeatsForMeasure(176);
+
+            var expected = @"A5 525 0.5
+B2 525 2
+D3 525 2
+G5 525.5 0.5
+B5 526 0.5
+G5 526.5 0.5
+B2 527 1
+D3 527 1
+D5 527 0.5
+G5 527.5 0.5";
 
             Assert.AreEqual(expected, actual);
         }
