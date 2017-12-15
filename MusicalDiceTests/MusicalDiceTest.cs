@@ -66,6 +66,45 @@ G5 527.5 0.5";
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void GenerateCompositionFrom22nd176thAnd1stMeasures()
+        {
+            var composition = new StringBuilder();
+
+            var firstMeasure = RetrieveBeatsForMeasure(22);
+            composition.Append(firstMeasure).Append("\n");
+
+            var secondMeasure = RetrieveBeatsForMeasure(176);
+            composition.Append(secondMeasure).Append("\n");
+
+            var thirdMeasure = RetrieveBeatsForMeasure(1);
+            composition.Append(thirdMeasure);
+
+            var actual = composition.ToString().Trim();
+            var expected = @"C3 63 2
+E5 63 1
+C5 64 1
+G4 65 1
+A5 525 0.5
+B2 525 2
+D3 525 2
+G5 525.5 0.5
+B5 526 0.5
+G5 526.5 0.5
+B2 527 1
+D3 527 1
+D5 527 0.5
+G5 527.5 0.5
+F3 0 1
+F5 0 1
+D3 1 1
+D5 1 1
+G3 2 1
+G5 2 1";
+
+            Assert.AreEqual(expected, actual);
+        }
+
         private string RetrieveBeatsForMeasure(int measure)
         {
             var measureLength = 3;
