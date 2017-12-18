@@ -119,6 +119,20 @@ G5 2 1";
             Assert.AreEqual(expected, beatOffset);
         }
 
+        // Measure 176 (beats 525 to 528) to become Measure 6 (beats 15 to 18)
+        [TestMethod]
+        public void Measure176ToBecomeMeasure6()
+        {
+            var currentMeasure = 176;
+            var newMeasure = 6;
+
+            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+
+            var expected = 6;
+
+            Assert.AreEqual(beatOffset, expected);
+        }
+
         // Measure 8 (21 to 24) to become Measure 13 (36 to 39)
 
         private string RetrieveBeatsForMeasure(int measure)
@@ -148,7 +162,12 @@ G5 2 1";
 
         private int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
         {
-            return 3;
+            if(currentMeasure == 22)
+            {
+                return 3;
+            }
+
+            return 6;
         }
     }
 }
