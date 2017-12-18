@@ -246,10 +246,24 @@ C2 38 1";
         {
             if (beatOffset == -63)
             {
-                return @"C3 0 2
-E5 0 1
-C5 1 1
-G4 2 1";
+                var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var sb = new StringBuilder();
+
+                for (int i = 0; i < measureArray.Length; i++)
+                {
+                    var currentMeasure = measureArray[i];
+                    var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var beatNumber = double.Parse(currentMeasureParts[1]);
+
+                    double newBeatNumber = beatNumber + beatOffset;
+
+                    currentMeasureParts[1] = newBeatNumber.ToString();
+
+                    var blah = string.Join(" ", currentMeasureParts);
+                    sb.Append(blah).Append('\n');
+                }
+
+                return sb.ToString().Trim();
             }
 
             if (beatOffset == -510)
