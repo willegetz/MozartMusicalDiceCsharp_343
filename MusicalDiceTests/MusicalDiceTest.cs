@@ -36,7 +36,7 @@ G5 2 1";
         }
 
         [TestMethod]
-        public void Measure22HasBeats63To65()
+        public void Measure22HasBeats63UpTo66()
         {
             var actual = RetrieveBeatsForMeasure(22);
 
@@ -49,7 +49,7 @@ G4 65 1";
         }
 
         [TestMethod]
-        public void Measure176HasBeat525To528(){
+        public void Measure176HasBeat525UpTo528(){
             var actual = RetrieveBeatsForMeasure(176);
 
             var expected = @"A5 525 0.5
@@ -105,6 +105,22 @@ G5 2 1";
             Assert.AreEqual(expected, actual);
         }
 
+        // Measure 22 (beats 63 to 66) to become Measure 1 (beats 0 to 3)
+        [TestMethod]
+        public void Measure22ToBecomeMeasure1()
+        {
+            var currentMeasure = 22;
+            var newMeasure = 1;
+
+            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+
+            var expected = 3;
+
+            Assert.AreEqual(expected, beatOffset);
+        }
+
+        // Measure 8 (21 to 24) to become Measure 13 (36 to 39)
+
         private string RetrieveBeatsForMeasure(int measure)
         {
             var measureLength = 3;
@@ -128,6 +144,11 @@ G5 2 1";
             }
 
             return sb.ToString().Trim();
+        }
+
+        private int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
+        {
+            return 3;
         }
     }
 }
