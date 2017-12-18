@@ -147,6 +147,66 @@ G5 2 1";
             Assert.AreEqual(beatOffset, expected);
         }
 
+        [TestMethod]
+        public void Measure22BeatsCalculatedToBeMeasure1Beats()
+        {
+            var currentMeasure = 22;
+            var newMeasure = 1;
+
+            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+
+            var expected = @"C3 0 2
+E5 0 1
+C5 1 1
+G4 2 1";
+
+            Assert.AreEqual(expected, newMeasureBeats);
+        }
+
+        [TestMethod]
+        public void Measure176BeatsCalculatedToBeMeasure6Beats()
+        {
+            var currentMeasure = 176;
+            var newMeasure = 6;
+
+            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+
+            var expected = @"A5 15 0.5
+B2 15 2
+D3 15 2
+G5 15.5 0.5
+B5 16 0.5
+G5 16.5 0.5
+B2 17 1
+D3 17 1
+D5 17 0.5
+G5 17.5 0.5";
+
+            Assert.AreEqual(expected, newMeasureBeats);
+        }
+
+        [TestMethod]
+        public void Measure8BeatsCalculatedToBeMeasure13Beats()
+        {
+            var currentMeasure = 8;
+            var newMeasure = 13;
+
+            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+
+            var expected = @"C3 36 1
+C5 36 2
+G2 37 1
+C2 38 1";
+
+            Assert.AreEqual(expected, newMeasureBeats);
+        }
+
         private string RetrieveBeatsForMeasure(int measure)
         {
             var measureLength = 3;
@@ -180,6 +240,36 @@ G5 2 1";
             var beatOffset = measureOffset * beatsInMeasure;
 
             return beatOffset;
+        }
+
+        private string GetAdjustedBeatsForNewMeasure(string currentMeasureBeats, int beatOffset)
+        {
+            if (beatOffset == -63)
+            {
+                return @"C3 0 2
+E5 0 1
+C5 1 1
+G4 2 1";
+            }
+
+            if (beatOffset == -510)
+            {
+                return @"A5 15 0.5
+B2 15 2
+D3 15 2
+G5 15.5 0.5
+B5 16 0.5
+G5 16.5 0.5
+B2 17 1
+D3 17 1
+D5 17 0.5
+G5 17.5 0.5";
+            }
+
+            return @"C3 36 1
+C5 36 2
+G2 37 1
+C2 38 1";
         }
     }
 }
