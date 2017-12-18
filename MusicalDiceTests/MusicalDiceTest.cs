@@ -153,7 +153,7 @@ G5 2 1";
             var currentMeasure = 22;
             var newMeasure = 1;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -171,7 +171,7 @@ G4 2 1";
             var currentMeasure = 176;
             var newMeasure = 6;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -195,7 +195,7 @@ G5 17.5 0.5";
             var currentMeasure = 8;
             var newMeasure = 13;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(22);
+            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -244,46 +244,24 @@ C2 38 1";
 
         private string GetAdjustedBeatsForNewMeasure(string currentMeasureBeats, int beatOffset)
         {
-            if (beatOffset == -63)
+            var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < measureArray.Length; i++)
             {
-                var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                var sb = new StringBuilder();
+                var currentMeasure = measureArray[i];
+                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var beatNumber = double.Parse(currentMeasureParts[1]);
 
-                for (int i = 0; i < measureArray.Length; i++)
-                {
-                    var currentMeasure = measureArray[i];
-                    var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    var beatNumber = double.Parse(currentMeasureParts[1]);
+                double newBeatNumber = beatNumber + beatOffset;
 
-                    double newBeatNumber = beatNumber + beatOffset;
+                currentMeasureParts[1] = newBeatNumber.ToString();
 
-                    currentMeasureParts[1] = newBeatNumber.ToString();
-
-                    var blah = string.Join(" ", currentMeasureParts);
-                    sb.Append(blah).Append('\n');
-                }
-
-                return sb.ToString().Trim();
+                var blah = string.Join(" ", currentMeasureParts);
+                sb.Append(blah).Append('\n');
             }
 
-            if (beatOffset == -510)
-            {
-                return @"A5 15 0.5
-B2 15 2
-D3 15 2
-G5 15.5 0.5
-B5 16 0.5
-G5 16.5 0.5
-B2 17 1
-D3 17 1
-D5 17 0.5
-G5 17.5 0.5";
-            }
-
-            return @"C3 36 1
-C5 36 2
-G2 37 1
-C2 38 1";
+            return sb.ToString().Trim();
         }
     }
 }
