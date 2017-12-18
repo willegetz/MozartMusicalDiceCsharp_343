@@ -114,7 +114,7 @@ G5 2 1";
 
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
-            var expected = 3;
+            var expected = -63;
 
             Assert.AreEqual(expected, beatOffset);
         }
@@ -128,7 +128,7 @@ G5 2 1";
 
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
-            var expected = 6;
+            var expected = -510;
 
             Assert.AreEqual(beatOffset, expected);
         }
@@ -142,7 +142,7 @@ G5 2 1";
 
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
-            var expected = 9;
+            var expected = 15;
 
             Assert.AreEqual(beatOffset, expected);
         }
@@ -174,17 +174,12 @@ G5 2 1";
 
         private int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
         {
-            if(currentMeasure == 22)
-            {
-                return 3;
-            }
+            var beatsInMeasure = 3;
 
-            if (currentMeasure == 176)
-            {
-                return 6;
-            }
+            var measureOffset = newMeasure - currentMeasure;
+            var beatOffset = measureOffset * beatsInMeasure;
 
-            return 9;
+            return beatOffset;
         }
     }
 }
