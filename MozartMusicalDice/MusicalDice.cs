@@ -38,5 +38,37 @@ namespace MozartMusicalDice
 
             return sb.ToString().Trim();
         }
+
+        public int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
+        {
+            var beatsInMeasure = 3;
+
+            var measureOffset = newMeasure - currentMeasure;
+            var beatOffset = measureOffset * beatsInMeasure;
+
+            return beatOffset;
+        }
+
+        public string GetAdjustedBeatsForNewMeasure(string currentMeasureBeats, int beatOffset)
+        {
+            var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < measureArray.Length; i++)
+            {
+                var currentMeasure = measureArray[i];
+                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var beatNumber = double.Parse(currentMeasureParts[1]);
+
+                double newBeatNumber = beatNumber + beatOffset;
+
+                currentMeasureParts[1] = newBeatNumber.ToString();
+
+                var blah = string.Join(" ", currentMeasureParts);
+                sb.Append(blah).Append('\n');
+            }
+
+            return sb.ToString().Trim();
+        }
     }
 }

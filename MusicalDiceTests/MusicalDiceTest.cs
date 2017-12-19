@@ -112,7 +112,7 @@ G5 2 1";
             var currentMeasure = 22;
             var newMeasure = 1;
 
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
             var expected = -63;
 
@@ -126,7 +126,7 @@ G5 2 1";
             var currentMeasure = 176;
             var newMeasure = 6;
 
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
             var expected = -510;
 
@@ -140,7 +140,7 @@ G5 2 1";
             var currentMeasure = 8;
             var newMeasure = 13;
 
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
 
             var expected = 15;
 
@@ -154,8 +154,8 @@ G5 2 1";
             var newMeasure = 1;
 
             var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
-            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
             var expected = @"C3 0 2
 E5 0 1
@@ -172,8 +172,8 @@ G4 2 1";
             var newMeasure = 6;
 
             var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
-            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
             var expected = @"A5 15 0.5
 B2 15 2
@@ -196,8 +196,8 @@ G5 17.5 0.5";
             var newMeasure = 13;
 
             var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
-            var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
-            var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
+            var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
+            var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
             var expected = @"C3 36 1
 C5 36 2
@@ -221,18 +221,18 @@ C2 38 1";
             var thirdMeasure = 3;
 
             var beatsForMeasure22 = musicDice.RetrieveBeatsForMeasure(measure22);
-            var firstMeasureBeatOffset = GetBeatOffsetForMeasures(measure22, firstMeasure);
-            var newFirstMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure22, firstMeasureBeatOffset);
+            var firstMeasureBeatOffset = musicDice.GetBeatOffsetForMeasures(measure22, firstMeasure);
+            var newFirstMeasure = musicDice.GetAdjustedBeatsForNewMeasure(beatsForMeasure22, firstMeasureBeatOffset);
             composition.Append(newFirstMeasure).Append("\n");
 
             var beatsForMeasure176 = musicDice.RetrieveBeatsForMeasure(measure176);
-            var secondMeasureBeatOffset = GetBeatOffsetForMeasures(measure176, secondMeasure);
-            var newSecondMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure176, secondMeasureBeatOffset);
+            var secondMeasureBeatOffset = musicDice.GetBeatOffsetForMeasures(measure176, secondMeasure);
+            var newSecondMeasure = musicDice.GetAdjustedBeatsForNewMeasure(beatsForMeasure176, secondMeasureBeatOffset);
             composition.Append(newSecondMeasure).Append("\n");
 
             var beatsForMeasure1 = musicDice.RetrieveBeatsForMeasure(measure1);
-            var thirdMeasureBeatOffset = GetBeatOffsetForMeasures(measure1, thirdMeasure);
-            var newThirdMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure1, thirdMeasureBeatOffset);
+            var thirdMeasureBeatOffset = musicDice.GetBeatOffsetForMeasures(measure1, thirdMeasure);
+            var newThirdMeasure = musicDice.GetAdjustedBeatsForNewMeasure(beatsForMeasure1, thirdMeasureBeatOffset);
             composition.Append(newThirdMeasure).Append("\n");
 
             var actual = composition.ToString().Trim();
@@ -260,36 +260,6 @@ G5 8 1";
             Assert.AreEqual(expected, actual);
         }
 
-        private int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
-        {
-            var beatsInMeasure = 3;
-
-            var measureOffset = newMeasure - currentMeasure;
-            var beatOffset = measureOffset * beatsInMeasure;
-
-            return beatOffset;
-        }
-
-        private string GetAdjustedBeatsForNewMeasure(string currentMeasureBeats, int beatOffset)
-        {
-            var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < measureArray.Length; i++)
-            {
-                var currentMeasure = measureArray[i];
-                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var beatNumber = double.Parse(currentMeasureParts[1]);
-
-                double newBeatNumber = beatNumber + beatOffset;
-
-                currentMeasureParts[1] = newBeatNumber.ToString();
-
-                var blah = string.Join(" ", currentMeasureParts);
-                sb.Append(blah).Append('\n');
-            }
-
-            return sb.ToString().Trim();
-        }
+        
     }
 }
