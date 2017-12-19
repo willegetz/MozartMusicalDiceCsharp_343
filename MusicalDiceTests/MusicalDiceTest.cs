@@ -3,10 +3,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using System.IO;
 using MozartMusicalDice;
+using ApprovalTests.Reporters;
+using ApprovalTests;
 
 namespace MusicalDiceTests
 {
     [TestClass]
+    [UseReporter(typeof(BeyondCompareReporter))]
     public class MusicalDiceTest
     {
         // A measure is 3 beats and is 0 based. Measure 1 would be beat 0, 1, and 2 but not 3. Measure 144 would be beat 432, 422, and 434 but not 435.
@@ -23,16 +26,9 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure1HasBeats0UpTo3()
         {
-            var actual = musicDice.RetrieveBeatsForMeasure(1);
+            var beatsForMeasure1 = musicDice.RetrieveBeatsForMeasure(1);
 
-            var expected = @"F3 0 1
-F5 0 1
-D3 1 1
-D5 1 1
-G3 2 1
-G5 2 1";
-
-            Assert.AreEqual(expected, actual);
+            Approvals.Verify(beatsForMeasure1);
         }
 
         [TestMethod]
