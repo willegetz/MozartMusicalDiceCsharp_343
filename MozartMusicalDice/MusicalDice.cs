@@ -7,11 +7,10 @@ namespace MozartMusicalDice
 {
     public class MusicalDice
     {
-        private string sampleComposition;
-        public MusicalDice()
+        private string originalComposition;
+        public MusicalDice(string compositionFilePath)
         {
-            var sampleCompositionFile = @".\..\..\..\MozartMusicalDice\Resources\mozart-dice-starting.txt";
-            sampleComposition = File.ReadAllText(sampleCompositionFile);
+            originalComposition = File.ReadAllText(compositionFilePath);
         }
 
         public string RetrieveBeatsForMeasure(int measure)
@@ -20,7 +19,7 @@ namespace MozartMusicalDice
             var startOfMeasure = (measure - 1) * measureLength;
             var endOfMeasure = startOfMeasure + measureLength;
 
-            var measureArray = sampleComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var measureArray = originalComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             var sb = new StringBuilder();
 
