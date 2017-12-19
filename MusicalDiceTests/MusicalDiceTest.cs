@@ -34,32 +34,16 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure22HasBeats63UpTo66()
         {
-            var actual = musicDice.RetrieveBeatsForMeasure(22);
+            var beatsForMeasure22 = musicDice.RetrieveBeatsForMeasure(22);
 
-            var expected = @"C3 63 2
-E5 63 1
-C5 64 1
-G4 65 1";
-
-            Assert.AreEqual(expected, actual);
+            Approvals.Verify(beatsForMeasure22);
         }
 
         [TestMethod]
         public void Measure176HasBeat525UpTo528(){
-            var actual = musicDice.RetrieveBeatsForMeasure(176);
+            var beatsForMeasure176 = musicDice.RetrieveBeatsForMeasure(176);
 
-            var expected = @"A5 525 0.5
-B2 525 2
-D3 525 2
-G5 525.5 0.5
-B5 526 0.5
-G5 526.5 0.5
-B2 527 1
-D3 527 1
-D5 527 0.5
-G5 527.5 0.5";
-
-            Assert.AreEqual(expected, actual);
+            Approvals.Verify(beatsForMeasure176);
         }
 
         [TestMethod]
@@ -76,29 +60,9 @@ G5 527.5 0.5";
             var thirdMeasure = musicDice.RetrieveBeatsForMeasure(1);
             composition.Append(thirdMeasure);
 
-            var actual = composition.ToString().Trim();
-            var expected = @"C3 63 2
-E5 63 1
-C5 64 1
-G4 65 1
-A5 525 0.5
-B2 525 2
-D3 525 2
-G5 525.5 0.5
-B5 526 0.5
-G5 526.5 0.5
-B2 527 1
-D3 527 1
-D5 527 0.5
-G5 527.5 0.5
-F3 0 1
-F5 0 1
-D3 1 1
-D5 1 1
-G3 2 1
-G5 2 1";
-
-            Assert.AreEqual(expected, actual);
+            var rawComposition = composition.ToString().Trim();
+            
+            Approvals.Verify(rawComposition);
         }
 
         // Measure 22 (beats 63 to 66) to become Measure 1 (beats 0 to 3)
@@ -153,12 +117,7 @@ G5 2 1";
             var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
-            var expected = @"C3 0 2
-E5 0 1
-C5 1 1
-G4 2 1";
-
-            Assert.AreEqual(expected, newMeasureBeats);
+            Approvals.Verify(newMeasureBeats);
         }
 
         [TestMethod]
@@ -171,18 +130,7 @@ G4 2 1";
             var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
-            var expected = @"A5 15 0.5
-B2 15 2
-D3 15 2
-G5 15.5 0.5
-B5 16 0.5
-G5 16.5 0.5
-B2 17 1
-D3 17 1
-D5 17 0.5
-G5 17.5 0.5";
-
-            Assert.AreEqual(expected, newMeasureBeats);
+            Approvals.Verify(newMeasureBeats);
         }
 
         [TestMethod]
@@ -195,12 +143,7 @@ G5 17.5 0.5";
             var beatOffset = musicDice.GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = musicDice.GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
-            var expected = @"C3 36 1
-C5 36 2
-G2 37 1
-C2 38 1";
-
-            Assert.AreEqual(expected, newMeasureBeats);
+            Approvals.Verify(newMeasureBeats);
         }
 
         [TestMethod]
@@ -231,29 +174,9 @@ C2 38 1";
             var newThirdMeasure = musicDice.GetAdjustedBeatsForNewMeasure(beatsForMeasure1, thirdMeasureBeatOffset);
             composition.Append(newThirdMeasure).Append("\n");
 
-            var actual = composition.ToString().Trim();
-            var expected = @"C3 0 2
-E5 0 1
-C5 1 1
-G4 2 1
-A5 3 0.5
-B2 3 2
-D3 3 2
-G5 3.5 0.5
-B5 4 0.5
-G5 4.5 0.5
-B2 5 1
-D3 5 1
-D5 5 0.5
-G5 5.5 0.5
-F3 6 1
-F5 6 1
-D3 7 1
-D5 7 1
-G3 8 1
-G5 8 1";
+            var newComposition = composition.ToString().Trim();
 
-            Assert.AreEqual(expected, actual);
+            Approvals.Verify(newComposition);
         }
 
         
