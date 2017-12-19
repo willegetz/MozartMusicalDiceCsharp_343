@@ -207,6 +207,59 @@ C2 38 1";
             Assert.AreEqual(expected, newMeasureBeats);
         }
 
+        [TestMethod]
+        public void GenerateNewCompositionFrom22nd176thAnd1stMeasures()
+        {
+            var composition = new StringBuilder();
+
+            var measure22 = 22;
+            var measure176 = 176;
+            var measure1 = 1;
+
+            var firstMeasure = 1;
+            var secondMeasure = 2;
+            var thirdMeasure = 3;
+
+            var beatsForMeasure22 = RetrieveBeatsForMeasure(measure22);
+            var firstMeasureBeatOffset = GetBeatOffsetForMeasures(measure22, firstMeasure);
+            var newFirstMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure22, firstMeasureBeatOffset);
+            composition.Append(newFirstMeasure).Append("\n");
+
+            var beatsForMeasure176 = RetrieveBeatsForMeasure(measure176);
+            var secondMeasureBeatOffset = GetBeatOffsetForMeasures(measure176, secondMeasure);
+            var newSecondMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure176, secondMeasureBeatOffset);
+            composition.Append(newSecondMeasure).Append("\n");
+
+            var beatsForMeasure1 = RetrieveBeatsForMeasure(measure1);
+            var thirdMeasureBeatOffset = GetBeatOffsetForMeasures(measure1, thirdMeasure);
+            var newThirdMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure1, thirdMeasureBeatOffset);
+            composition.Append(newThirdMeasure).Append("\n");
+
+            var actual = composition.ToString().Trim();
+            var expected = @"C3 0 2
+E5 0 1
+C5 1 1
+G4 2 1
+A5 3 0.5
+B2 3 2
+D3 3 2
+G5 3.5 0.5
+B5 4 0.5
+G5 4.5 0.5
+B2 5 1
+D3 5 1
+D5 5 0.5
+G5 5.5 0.5
+F3 6 1
+F5 6 1
+D3 7 1
+D5 7 1
+G3 8 1
+G5 8 1";
+
+            Assert.AreEqual(expected, actual);
+        }
+
         private string RetrieveBeatsForMeasure(int measure)
         {
             var measureLength = 3;
