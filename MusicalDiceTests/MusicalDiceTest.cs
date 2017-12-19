@@ -186,7 +186,7 @@ namespace MusicalDiceTests
             var measuresArray = new[] { 96, 22, 141, 41, 105, 122, 11, 30, 70, 121, 26, 9, 112, 49, 109, 14 };
 
             // pass array of measures into the generate new composition function on the musical dice object
-            var newComposition = "";
+            var newComposition = musicDice.CreateNewComposition(measuresArray);
 
             // verify the new composition is correct.
             Approvals.Verify(newComposition);
