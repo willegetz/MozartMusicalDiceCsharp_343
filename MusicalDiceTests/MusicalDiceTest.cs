@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using System.IO;
+using MozartMusicalDice;
 
 namespace MusicalDiceTests
 {
@@ -11,19 +12,18 @@ namespace MusicalDiceTests
         // A measure is 3 beats and is 0 based. Measure 1 would be beat 0, 1, and 2 but not 3. Measure 144 would be beat 432, 422, and 434 but not 435.
         // Given a set of measures, extract the appropriate beats for a given measure.
 
-        private static string sampleComposition;
+        private static MusicalDice musicDice;
 
         [ClassInitialize]
         public static void LoadSampleComposition(TestContext testContext)
         {
-            var sampleCompositionFile = @".\..\..\..\MozartMusicalDice\Resources\mozart-dice-starting.txt";
-            sampleComposition = File.ReadAllText(sampleCompositionFile);
+            musicDice = new MusicalDice();
         }
 
         [TestMethod]
         public void Measure1HasBeats0UpTo3()
         {
-            var actual = RetrieveBeatsForMeasure(1);
+            var actual = musicDice.RetrieveBeatsForMeasure(1);
 
             var expected = @"F3 0 1
 F5 0 1
@@ -38,7 +38,7 @@ G5 2 1";
         [TestMethod]
         public void Measure22HasBeats63UpTo66()
         {
-            var actual = RetrieveBeatsForMeasure(22);
+            var actual = musicDice.RetrieveBeatsForMeasure(22);
 
             var expected = @"C3 63 2
 E5 63 1
@@ -50,7 +50,7 @@ G4 65 1";
 
         [TestMethod]
         public void Measure176HasBeat525UpTo528(){
-            var actual = RetrieveBeatsForMeasure(176);
+            var actual = musicDice.RetrieveBeatsForMeasure(176);
 
             var expected = @"A5 525 0.5
 B2 525 2
@@ -71,13 +71,13 @@ G5 527.5 0.5";
         {
             var composition = new StringBuilder();
 
-            var firstMeasure = RetrieveBeatsForMeasure(22);
+            var firstMeasure = musicDice.RetrieveBeatsForMeasure(22);
             composition.Append(firstMeasure).Append("\n");
 
-            var secondMeasure = RetrieveBeatsForMeasure(176);
+            var secondMeasure = musicDice.RetrieveBeatsForMeasure(176);
             composition.Append(secondMeasure).Append("\n");
 
-            var thirdMeasure = RetrieveBeatsForMeasure(1);
+            var thirdMeasure = musicDice.RetrieveBeatsForMeasure(1);
             composition.Append(thirdMeasure);
 
             var actual = composition.ToString().Trim();
@@ -153,7 +153,7 @@ G5 2 1";
             var currentMeasure = 22;
             var newMeasure = 1;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
+            var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -171,7 +171,7 @@ G4 2 1";
             var currentMeasure = 176;
             var newMeasure = 6;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
+            var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -195,7 +195,7 @@ G5 17.5 0.5";
             var currentMeasure = 8;
             var newMeasure = 13;
 
-            var currentMeasureBeats = RetrieveBeatsForMeasure(currentMeasure);
+            var currentMeasureBeats = musicDice.RetrieveBeatsForMeasure(currentMeasure);
             var beatOffset = GetBeatOffsetForMeasures(currentMeasure, newMeasure);
             var newMeasureBeats = GetAdjustedBeatsForNewMeasure(currentMeasureBeats, beatOffset);
 
@@ -220,17 +220,17 @@ C2 38 1";
             var secondMeasure = 2;
             var thirdMeasure = 3;
 
-            var beatsForMeasure22 = RetrieveBeatsForMeasure(measure22);
+            var beatsForMeasure22 = musicDice.RetrieveBeatsForMeasure(measure22);
             var firstMeasureBeatOffset = GetBeatOffsetForMeasures(measure22, firstMeasure);
             var newFirstMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure22, firstMeasureBeatOffset);
             composition.Append(newFirstMeasure).Append("\n");
 
-            var beatsForMeasure176 = RetrieveBeatsForMeasure(measure176);
+            var beatsForMeasure176 = musicDice.RetrieveBeatsForMeasure(measure176);
             var secondMeasureBeatOffset = GetBeatOffsetForMeasures(measure176, secondMeasure);
             var newSecondMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure176, secondMeasureBeatOffset);
             composition.Append(newSecondMeasure).Append("\n");
 
-            var beatsForMeasure1 = RetrieveBeatsForMeasure(measure1);
+            var beatsForMeasure1 = musicDice.RetrieveBeatsForMeasure(measure1);
             var thirdMeasureBeatOffset = GetBeatOffsetForMeasures(measure1, thirdMeasure);
             var newThirdMeasure = GetAdjustedBeatsForNewMeasure(beatsForMeasure1, thirdMeasureBeatOffset);
             composition.Append(newThirdMeasure).Append("\n");
@@ -258,31 +258,6 @@ G3 8 1
 G5 8 1";
 
             Assert.AreEqual(expected, actual);
-        }
-
-        private string RetrieveBeatsForMeasure(int measure)
-        {
-            var measureLength = 3;
-            var startOfMeasure = (measure -1) * measureLength;
-            var endOfMeasure = startOfMeasure + measureLength;
-
-            var measureArray = sampleComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < measureArray.Length; i++)
-            {
-                var currentMeasure = measureArray[i];
-                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var measureNumber = double.Parse(currentMeasureParts[1]);
-
-                if (measureNumber >= startOfMeasure && measureNumber < endOfMeasure)
-                {
-                    sb.Append(currentMeasure).Append("\n");
-                }
-            }
-
-            return sb.ToString().Trim();
         }
 
         private int GetBeatOffsetForMeasures(int currentMeasure, int newMeasure)
