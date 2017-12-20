@@ -189,5 +189,29 @@ namespace MusicalDiceTests
 
             Approvals.Verify(newComposition);
         }
+
+        [TestMethod]
+        public void Row1Value7Returns104()
+        {
+            var rowNumber = 1;
+            var diceValue = 7;
+            var expectedResult = 104;
+
+            var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
+
+            Assert.AreEqual(expectedResult, measureNumber);
+        }
+
+        [TestMethod]
+        public void Row5Value3Returns146()
+        {
+            var rowNumber = 5;
+            var diceValue = 3;
+            var expectedResult = 146;
+
+            var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
+
+            Assert.AreEqual(expectedResult, measureNumber);
+        }
     }
 }
