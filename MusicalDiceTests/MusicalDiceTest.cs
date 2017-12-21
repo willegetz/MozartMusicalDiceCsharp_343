@@ -213,5 +213,17 @@ namespace MusicalDiceTests
 
             Assert.AreEqual(expectedResult, measureNumber);
         }
+
+        [TestMethod]
+        public void Row1RandomDiceValue11Returs3()
+        {
+            var rowNumber = 1;
+            var expected = 3;
+
+            var diceValue = musicDice.GetDiceValue(10);
+            var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
+
+            Assert.AreEqual(expected, measureNumber);
+        }
     }
 }

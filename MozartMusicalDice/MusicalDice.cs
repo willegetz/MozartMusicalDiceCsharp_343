@@ -114,5 +114,14 @@ namespace MozartMusicalDice
             };
             return randomMeasures[adjustedRowNumber, adjustedDiceValue];
         }
+
+        public int GetDiceValue(int seed)
+        {
+            var r = new Random(seed);
+            var firstResult = r.Next(1, 7);
+            var secondResult = r.Next(1, 7);
+
+            return firstResult + secondResult;
+        }
     }
 }
