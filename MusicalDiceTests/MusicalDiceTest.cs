@@ -193,7 +193,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row1Value7Returns104()
         {
-            var rowNumber = 1;
+            var rowNumber = 0;
             var diceValue = 7;
             var expectedResult = 104;
 
@@ -205,7 +205,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row5Value3Returns146()
         {
-            var rowNumber = 5;
+            var rowNumber = 4;
             var diceValue = 3;
             var expectedResult = 146;
 
@@ -217,13 +217,22 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row1RandomDiceValue11Returs3()
         {
-            var rowNumber = 1;
+            var rowNumber = 0;
             var expected = 3;
 
             var diceValue = musicDice.GetDiceValue(10);
             var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
 
             Assert.AreEqual(expected, measureNumber);
+        }
+
+        [TestMethod]
+        public void BuildStartingMeasureArray()
+        {
+            var seed = 10;
+            var measureArray = musicDice.GetMeasureArray(seed);
+
+            Approvals.VerifyAll(measureArray, "Measure #");
         }
     }
 }

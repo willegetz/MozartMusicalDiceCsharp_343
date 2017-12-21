@@ -90,7 +90,6 @@ namespace MozartMusicalDice
 
         public int GetMeasureNumber(int rowNumber, int diceValue)
         {
-            var adjustedRowNumber = rowNumber - 1;
             var adjustedDiceValue = diceValue - 2;
 
             var randomMeasures = new[,]
@@ -112,7 +111,7 @@ namespace MozartMusicalDice
                 {109, 116, 145, 52, 1, 23, 89, 72, 149, 173, 44},
                 {14, 83, 79, 170, 93, 151, 172, 111, 8, 78, 131}
             };
-            return randomMeasures[adjustedRowNumber, adjustedDiceValue];
+            return randomMeasures[rowNumber, adjustedDiceValue];
         }
 
         public int GetDiceValue(int seed)
@@ -122,6 +121,20 @@ namespace MozartMusicalDice
             var secondResult = r.Next(1, 7);
 
             return firstResult + secondResult;
+        }
+
+        public int[] GetMeasureArray(int seed)
+        {
+            var totalMeasures = 16;
+            var measureArray = new int[16];
+
+            for (int i = 0; i < totalMeasures; i++)
+            {
+                var diceValue = GetDiceValue(seed);
+                measureArray[i] = GetMeasureNumber(i, diceValue);
+            }
+
+            return measureArray;
         }
     }
 }
