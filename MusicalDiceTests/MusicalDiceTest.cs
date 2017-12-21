@@ -234,5 +234,15 @@ namespace MusicalDiceTests
 
             Approvals.VerifyAll(measureArray, "Measure #");
         }
+
+        [TestMethod]
+        public void BuildRandomComposition()
+        {
+            var seed = 10;
+            var measureArray = musicDice.GetMeasureArray(seed);
+            var newComposition = musicDice.CreateNewComposition(measureArray);
+
+            Approvals.Verify(newComposition);
+        }
     }
 }
