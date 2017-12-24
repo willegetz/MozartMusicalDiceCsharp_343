@@ -123,13 +123,18 @@ namespace MozartMusicalDice
             return firstResult + secondResult;
         }
 
-        public int[] GetMeasureArray(int seed)
+        public int[] GetMeasureArray(int seed = -1)
         {
             var totalMeasures = 16;
             var measureArray = new int[16];
 
             for (int i = 0; i < totalMeasures; i++)
             {
+                if (seed == -1)
+                {
+                    seed = (int)DateTime.UtcNow.Ticks;
+                }
+
                 var diceValue = GetDiceValue(seed);
                 measureArray[i] = GetMeasureNumber(i, diceValue);
             }
