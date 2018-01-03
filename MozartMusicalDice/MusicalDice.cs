@@ -46,15 +46,15 @@ namespace MozartMusicalDice
         public int GetDiceValue(int seed)
         {
             var r = new Random(seed);
-            var firstResult = r.Next(1, 7);
-            var secondResult = r.Next(1, 7);
+            var firstResult = r.Next(0, 6);
+            var secondResult = r.Next(0, 6);
 
             return firstResult + secondResult;
         }
 
         public int GetMeasureNumber(int rowNumber, int diceValue)
         {
-            var adjustedDiceValue = diceValue - 2;
+            var adjustedDiceValue = diceValue;
 
             var randomMeasures = new[,]
             {

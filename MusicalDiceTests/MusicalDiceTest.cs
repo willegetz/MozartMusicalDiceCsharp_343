@@ -196,11 +196,11 @@ namespace MusicalDiceTests
         }
 
         [TestMethod]
-        public void Row1Value7Returns104()
+        public void Row1Value5Returns104()
         {
             var musicDice = new MusicalDice(sampleCompositionFilePath);
             var rowNumber = 0;
-            var diceValue = 7;
+            var diceValue = 5;
             var expectedResult = 104;
 
             var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
@@ -209,11 +209,11 @@ namespace MusicalDiceTests
         }
 
         [TestMethod]
-        public void Row5Value3Returns146()
+        public void Row5Value1Returns146()
         {
             var musicDice = new MusicalDice(sampleCompositionFilePath);
             var rowNumber = 4;
-            var diceValue = 3;
+            var diceValue = 1;
             var expectedResult = 146;
 
             var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
