@@ -121,10 +121,9 @@ namespace MozartMusicalDice
                 var splitIndexValue = double.Parse(splitOfCurrentWorkingValue[1]);
 
                 double newBeatNumber = splitIndexValue + beatOffset;
-
                 splitOfCurrentWorkingValue[1] = newBeatNumber.ToString();
-
                 var reconstructedMeasure = string.Join(" ", splitOfCurrentWorkingValue);
+
                 sb.Append(reconstructedMeasure).Append('\n');
             }
 
