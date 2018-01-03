@@ -224,11 +224,12 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row1RandomDiceValue11Returs3()
         {
-            var musicDice = new MusicalDice(sampleCompositionFilePath);
+            var seed = 10;
+            var musicDice = new MusicalDice(sampleCompositionFilePath, seed);
             var rowNumber = 0;
             var expected = 3;
 
-            var diceValue = musicDice.GetDiceValue(10);
+            var diceValue = musicDice.GetDiceValue();
             var measureNumber = musicDice.GetMeasureNumber(rowNumber, diceValue);
 
             Assert.AreEqual(expected, measureNumber);
@@ -249,7 +250,7 @@ namespace MusicalDiceTests
         {
             var seed = 10;
             var musicDice = new MusicalDice(sampleCompositionFilePath, seed);
-            var newComposition = musicDice.CreateRandomComposition(seed);
+            var newComposition = musicDice.CreateRandomComposition();
 
             Approvals.Verify(newComposition);
         }
