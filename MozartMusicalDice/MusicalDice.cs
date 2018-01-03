@@ -75,7 +75,7 @@ namespace MozartMusicalDice
             return sb.ToString().Trim();
         }
 
-        public string CreateNewComposition(int[] measuresArray)
+        public string BuildNewComposition(int[] measuresArray)
         {
             var sb = new StringBuilder();
             var newMeasureIndex = 0;

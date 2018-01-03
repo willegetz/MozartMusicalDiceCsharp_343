@@ -185,7 +185,7 @@ namespace MusicalDiceTests
         {
             var measuresArray = new[] { 96, 22, 141, 41, 105, 122, 11, 30, 70, 121, 26, 9, 112, 49, 109, 14 };
 
-            var newComposition = musicDice.CreateNewComposition(measuresArray);
+            var newComposition = musicDice.BuildNewComposition(measuresArray);
 
             Approvals.Verify(newComposition);
         }
@@ -238,11 +238,17 @@ namespace MusicalDiceTests
         [TestMethod]
         public void BuildRandomComposition()
         {
-            var seed = 10;
-            var measureArray = musicDice.GetMeasureArray(seed);
-            var newComposition = musicDice.CreateNewComposition(measureArray);
+            var newComposition = CreateRandomComposition();
 
             Approvals.Verify(newComposition);
+        }
+
+        private string CreateRandomComposition()
+        {
+            var seed = 10;
+            var measureArray = musicDice.GetMeasureArray(seed);
+            var newComposition = musicDice.BuildNewComposition(measureArray);
+            return newComposition;
         }
     }
 }
