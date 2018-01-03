@@ -15,18 +15,12 @@ namespace MusicalDiceTests
         // A measure is 3 beats and is 0 based. Measure 1 would be beat 0, 1, and 2 but not 3. Measure 144 would be beat 432, 422, and 434 but not 435.
         // Given a set of measures, extract the appropriate beats for a given measure.
 
-        private static MusicalDice musicDice;
-
-        [ClassInitialize]
-        public static void LoadSampleComposition(TestContext testContext)
-        {
-            var sampleCompositionFilepath = @".\..\..\Resources\mozart-dice-starting.txt";
-            musicDice = new MusicalDice(sampleCompositionFilepath);
-        }
+        private const string sampleCompositionFilePath = @".\..\..\Resources\mozart-dice-starting.txt";
 
         [TestMethod]
         public void Measure1HasBeats0UpTo3()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var beatsForMeasure1 = musicDice.RetrieveBeatsForMeasure(1);
 
             Approvals.Verify(beatsForMeasure1);
@@ -35,6 +29,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure22HasBeats63UpTo66()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var beatsForMeasure22 = musicDice.RetrieveBeatsForMeasure(22);
 
             Approvals.Verify(beatsForMeasure22);
@@ -42,6 +37,7 @@ namespace MusicalDiceTests
 
         [TestMethod]
         public void Measure176HasBeat525UpTo528(){
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var beatsForMeasure176 = musicDice.RetrieveBeatsForMeasure(176);
 
             Approvals.Verify(beatsForMeasure176);
@@ -50,6 +46,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void GenerateRawCompositionFrom22nd176thAnd1stMeasures()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var composition = new StringBuilder();
 
             var firstMeasure = musicDice.RetrieveBeatsForMeasure(22);
@@ -70,6 +67,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure22ToBecomeMeasure1()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 22;
             var newMeasure = 1;
 
@@ -84,6 +82,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure176ToBecomeMeasure6()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 176;
             var newMeasure = 6;
 
@@ -98,6 +97,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure8ToBecomeMeasure13()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 8;
             var newMeasure = 13;
 
@@ -111,6 +111,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure22BeatsCalculatedToBeMeasure1Beats()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 22;
             var newMeasure = 1;
 
@@ -124,6 +125,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure176BeatsCalculatedToBeMeasure6Beats()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 176;
             var newMeasure = 6;
 
@@ -137,6 +139,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Measure8BeatsCalculatedToBeMeasure13Beats()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var currentMeasure = 8;
             var newMeasure = 13;
 
@@ -150,6 +153,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void GenerateNewCompositionFrom22nd176thAnd1stMeasures()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var composition = new StringBuilder();
 
             var measure22 = 22;
@@ -183,6 +187,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void GenerateNewCompositionFromArrayOfMeasures()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var measuresArray = new[] { 96, 22, 141, 41, 105, 122, 11, 30, 70, 121, 26, 9, 112, 49, 109, 14 };
 
             var newComposition = musicDice.BuildNewComposition(measuresArray);
@@ -193,6 +198,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row1Value7Returns104()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var rowNumber = 0;
             var diceValue = 7;
             var expectedResult = 104;
@@ -205,6 +211,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row5Value3Returns146()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var rowNumber = 4;
             var diceValue = 3;
             var expectedResult = 146;
@@ -217,6 +224,7 @@ namespace MusicalDiceTests
         [TestMethod]
         public void Row1RandomDiceValue11Returs3()
         {
+            var musicDice = new MusicalDice(sampleCompositionFilePath);
             var rowNumber = 0;
             var expected = 3;
 
@@ -230,7 +238,8 @@ namespace MusicalDiceTests
         public void BuildStartingMeasureArray()
         {
             var seed = 10;
-            var measureArray = musicDice.GetMeasureArray(seed);
+            var musicDice = new MusicalDice(sampleCompositionFilePath, seed);
+            var measureArray = musicDice.GetMeasureArray();
 
             Approvals.VerifyAll(measureArray, "Measure #");
         }
@@ -238,17 +247,11 @@ namespace MusicalDiceTests
         [TestMethod]
         public void BuildRandomComposition()
         {
-            var newComposition = CreateRandomComposition();
+            var seed = 10;
+            var musicDice = new MusicalDice(sampleCompositionFilePath, seed);
+            var newComposition = musicDice.CreateRandomComposition(seed);
 
             Approvals.Verify(newComposition);
-        }
-
-        private string CreateRandomComposition()
-        {
-            var seed = 10;
-            var measureArray = musicDice.GetMeasureArray(seed);
-            var newComposition = musicDice.BuildNewComposition(measureArray);
-            return newComposition;
         }
     }
 }
