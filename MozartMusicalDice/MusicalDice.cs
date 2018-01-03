@@ -13,6 +13,11 @@ namespace MozartMusicalDice
             originalComposition = File.ReadAllText(compositionFilePath);
         }
 
+        public MusicalDice()
+        {
+            originalComposition = SourceComposition.GetSourceComposition;
+        }
+
         public string RetrieveBeatsForMeasure(int measure)
         {
             var measureLength = 3;
@@ -128,13 +133,13 @@ namespace MozartMusicalDice
             var totalMeasures = 16;
             var measureArray = new int[16];
 
+            if (seed == -1)
+            {
+                seed = (int)DateTime.UtcNow.Ticks;
+            }
+
             for (int i = 0; i < totalMeasures; i++)
             {
-                if (seed == -1)
-                {
-                    seed = (int)DateTime.UtcNow.Ticks;
-                }
-
                 var diceValue = GetDiceValue(seed);
                 measureArray[i] = GetMeasureNumber(i, diceValue);
             }
