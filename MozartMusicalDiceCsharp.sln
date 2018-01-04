@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicalDiceTests", "MusicalDiceTests\MusicalDiceTests.csproj", "{05F0F7A6-374E-40B3-9970-B6CB267FFD1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MozartMusicalDice", "MozartMusicalDice\MozartMusicalDice.csproj", "{DE5B2447-9C42-4AC5-9B46-C00BD8655E18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicalDice", "MusicalDice\MusicalDice.csproj", "{B04C311D-52CD-4EB9-A2EA-06021C3B6F82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicalDicePlayer", "MusicalDicePlayer\MusicalDicePlayer.csproj", "{09D64F9B-980E-433A-A33C-A2485430B031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{DE5B2447-9C42-4AC5-9B46-C00BD8655E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5B2447-9C42-4AC5-9B46-C00BD8655E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE5B2447-9C42-4AC5-9B46-C00BD8655E18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B04C311D-52CD-4EB9-A2EA-06021C3B6F82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B04C311D-52CD-4EB9-A2EA-06021C3B6F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B04C311D-52CD-4EB9-A2EA-06021C3B6F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B04C311D-52CD-4EB9-A2EA-06021C3B6F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D64F9B-980E-433A-A33C-A2485430B031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D64F9B-980E-433A-A33C-A2485430B031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D64F9B-980E-433A-A33C-A2485430B031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D64F9B-980E-433A-A33C-A2485430B031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
