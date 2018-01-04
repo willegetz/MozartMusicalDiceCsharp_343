@@ -81,19 +81,18 @@ namespace MozartMusicalDice
             var startOfMeasure = (measure - 1) * measureLength;
             var endOfMeasure = startOfMeasure + measureLength;
 
-            var measureArray = originalComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
             var sb = new StringBuilder();
 
-            for (int i = 0; i < measureArray.Length; i++)
+            var workingArray = originalComposition.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < workingArray.Length; i++)
             {
-                var currentMeasure = measureArray[i];
-                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var measureNumber = double.Parse(currentMeasureParts[1]);
+                var currentWorkingValue = workingArray[i];
+                var splitOfCurrentWorkingValue = currentWorkingValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var splitIndexValue = double.Parse(splitOfCurrentWorkingValue[1]);
 
-                if (measureNumber >= startOfMeasure && measureNumber < endOfMeasure)
+                if (splitIndexValue >= startOfMeasure && splitIndexValue < endOfMeasure)
                 {
-                    sb.Append(currentMeasure).Append("\n");
+                    sb.Append(currentWorkingValue).Append("\n");
                 }
             }
 
@@ -112,21 +111,20 @@ namespace MozartMusicalDice
 
         public string GetAdjustedBeatsForNewMeasure(string currentMeasureBeats, int beatOffset)
         {
-            var measureArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             var sb = new StringBuilder();
 
-            for (int i = 0; i < measureArray.Length; i++)
+            var workingArray = currentMeasureBeats.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < workingArray.Length; i++)
             {
-                var currentMeasure = measureArray[i];
-                var currentMeasureParts = currentMeasure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var beatNumber = double.Parse(currentMeasureParts[1]);
+                var currentWorkingValue = workingArray[i];
+                var splitOfCurrentWorkingValue = currentWorkingValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var splitIndexValue = double.Parse(splitOfCurrentWorkingValue[1]);
 
-                double newBeatNumber = beatNumber + beatOffset;
+                double newBeatNumber = splitIndexValue + beatOffset;
+                splitOfCurrentWorkingValue[1] = newBeatNumber.ToString();
+                var reconstructedMeasure = string.Join(" ", splitOfCurrentWorkingValue);
 
-                currentMeasureParts[1] = newBeatNumber.ToString();
-
-                var blah = string.Join(" ", currentMeasureParts);
-                sb.Append(blah).Append('\n');
+                sb.Append(reconstructedMeasure).Append('\n');
             }
 
             return sb.ToString().Trim();
