@@ -8,6 +8,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+Private*.config
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -19,6 +20,7 @@
 [Rr]eleases/
 x64/
 x86/
+build/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -40,6 +42,8 @@ Generated\ Files/
 *.VisualState.xml
 TestResult.xml
 
+# Approvals
+*.received.*
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
@@ -117,7 +121,7 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# JustCode is a .NET coding add-in
+# JustCode is a .NET coding addin-in
 .JustCode
 
 # TeamCity is a build add-in
@@ -165,7 +169,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# Note: Comment the next line if you want to checkin your web deploy settings,
+# TODO: Comment the next line if you want to checkin your web deploy settings 
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -210,6 +214,7 @@ _pkginfo.txt
 
 # Others
 ClientBin/
+[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl
