@@ -1,0 +1,65 @@
+// Play notes from composition in the browser
+//  Create an audio player
+//    Set audio player values
+//  Pass the new composition to the audio player
+//  Play the composition
+
+// What do I need to play composition in the browser?
+//  AudioContext and all it's pieces parts
+//  AudioContext is a property of Window.window, is a function by default, and is not null or undefined
+
+//  composition returned from the controller split into its individual lines (beats) and split again into beat parts
+
+// Music scales map
+//  This one is a black box to me and may be revealed more when working with audio context.
+
+/*
+  Taken from: http://ufx.space/stuff/mozart-dice/
+
+    Generates an object which starts with a key of C-1 and octave 0f 0
+
+    let notenames = {};
+    // Original code as written: "C C# D D# E F F# G G# A A# B".split(" ").forEach((n, j) => {
+    // FOrmatted for clarity: "C C# D D# E F F# G G# A A# B".split(" ").forEach((noteName, octaveIndex) => {
+    
+    "C C# D D# E F F# G G# A A# B".split(" ").forEach((n, j) => {
+      for (let octave = -1 ; octave < 8 ; ++octave) { // will produce C notes from 8.175 hz to 2092.800 hz. Actual range needs to be 16.35 hz to 4186.01 
+        notenames[n + octave] = 12 + 12 * octave + j
+        
+        // Original code as written: notenames[n + octave] = 12 + 12 * octave + j
+        // Formatted for clarity: notenames[noteName + octave] = 12 + (12 * octave) + octaveIndex
+      };
+    }); 
+
+
+    Formula for frequency of notes:
+    site: https://pages.mtu.edu/~suits/NoteFreqCalcs.html
+    fn = f0 * (a)n 
+
+    fn = 440 * ((2) ^ 1/12) ^ -9
+
+    http://www.javascripture.com/OscillatorNode
+    using detune
+    
+    detune = (tone - 60) * 100
+    
+    middle c
+    effectiveFrequency = frequency * pow(2, detune / 1200).
+    
+    C3 (261.6hz, 60 in index)
+    262.2 * Math.pow(2, (((60 - 60) * 100) / 1200))
+
+
+    261.6 * 2 ^ (-1200 / 1200)
+    261.6 * 0.5
+    261.6 * 0.5 = 261.6
+
+    A4 (440hz, 69 in index)
+    261.6 * (((69 - 60) * 100) / 1200) ^ 2
+    261.6 * ((9 * 100) / 1200 ^ 2
+    261.6 * (900 / 1200) ^ 2
+    261.6 * 0.75 ^ 2
+    261.6 * 0.5625
+    147.15
+    
+*/

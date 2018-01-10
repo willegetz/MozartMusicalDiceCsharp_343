@@ -1,9 +1,17 @@
+'Use Strict'
+
 const assert = require('assert');
-const player = require('../../MusicalDicePlayer/Scripts/Custom/musicPlayer');
+const musicPlayer = require('../../MusicalDicePlayer/Scripts/Custom/musicPlayer');
 
-describe('Music Player', function(){
-  it('should parse a beat into three parts', function(){
-    assert.fail('Not implemented yet.');
+describe('Musica Player', function () {
+  console.log(JSON.stringify(musicPlayer, null, 4));
+
+  describe('cosmologicon\'s note / octave dictionary', function () {
+    it('should provide a note name to index map', function () {
+      let notenames = musicPlayer.exportedFunctions.buildNoteIndex();
+      let expectedNotenames = require('./approvedFiles/cosmologiconNoteNames.json');
+
+      assert.deepEqual(notenames, expectedNotenames);
+    })
   })
-})
-
+});
