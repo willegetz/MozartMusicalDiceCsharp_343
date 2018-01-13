@@ -40,8 +40,19 @@
 
     http://www.javascripture.com/OscillatorNode
     using detune
+      -- alters the effective frequency
+      -- specified in Cents
+      --  There are 100 cents in one semitone
+      --  There are 12 semitones in an octave
     
-    detune = (tone - 60) * 100
+    Calculating detune (Simplified):
+      -- Need cents from the anchor note to the desired note
+      --  Interval to desired note is "tone" (ex: notenames['C4'])
+      --  Easier to calculate on the fly than calculating a new frequency for a tone and offloads the new frequency calculation to the browser. 
+
+    centsInASemitone = 100;
+    semitonesFromAnchorTone = (anchorTone - 60)
+    detune = semitonesFromAnchorTone * centsInASemitone
     
     middle c
     effectiveFrequency = frequency * pow(2, detune / 1200).
@@ -61,5 +72,6 @@
     261.6 * 0.75 ^ 2
     261.6 * 0.5625
     147.15
-    
+  
+
 */
