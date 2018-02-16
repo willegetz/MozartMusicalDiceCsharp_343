@@ -1,10 +1,27 @@
 'Use Strict'
 
 const assert = require('assert');
-const musicPlayer = require('../../MusicalDicePlayer/Scripts/Custom/musicPlayer').exportedFunctions;
+const musicPlayerApi = require('../../MusicalDicePlayer/Scripts/Custom/musicPlayer');
 
 describe('Musical Player', function () {
   let noteNames = {};
+  let musicPlayer = {};
+
+  let fakeWindow = {
+    AudioContext: function(){},
+  }
+
+  fakeWindow.AudioContext.prototype.createGain = function(){
+    return {
+      gain: {
+        value: 0
+      },
+      connect: function(destination){}
+    }
+  };
+
+  musicPlayerApi(fakeWindow);
+  musicPlayer = fakeWindow.exportedFunctions;
 
   beforeEach(function () {
     noteNames = musicPlayer.buildNoteIndex();
@@ -27,7 +44,7 @@ describe('Musical Player', function () {
     const expectedFrequency = 261.63;
     assert.equal(middleCFrequency, expectedFrequency);
   });
-
+  
   it('should calculate the start and stop time of a note given a tempo of 120, a starting beat of 3, and a duration of 2 beats', function () {
     const startBeat = 3;
     const duration = 2;
