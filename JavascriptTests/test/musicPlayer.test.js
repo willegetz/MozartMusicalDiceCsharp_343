@@ -9,10 +9,10 @@ describe('Musical Player', function () {
   let musicPlayer = {};
 
   let fakeWindow = {
-    AudioContext: function(){},
+    AudioContext: function () { },
   }
 
-  fakeWindow.AudioContext.prototype.createGain = function(){
+  fakeWindow.AudioContext.prototype.createGain = function () {
     return {
       gain: {
         value: 0,
@@ -21,6 +21,15 @@ describe('Musical Player', function () {
         setTargetAtTime: sinon.spy()
       },
       connect: sinon.spy()
+    }
+  };
+
+  fakeWindow.AudioContext.prototype.createOscillator = function () {
+    return {
+      type: sinon.spy(),
+      frequency: {
+        setTargetAtTime: sinon.spy()
+      }
     }
   };
 
@@ -48,7 +57,7 @@ describe('Musical Player', function () {
     const expectedFrequency = 261.63;
     assert.equal(middleCFrequency, expectedFrequency);
   });
-  
+
   it('should calculate the start and stop time of a note given a tempo of 120, a starting beat of 3, and a duration of 2 beats', function () {
     const startBeat = 3;
     const duration = 2;
@@ -62,7 +71,7 @@ describe('Musical Player', function () {
     assert.equal(noteTiming.stop, expectedStopTime);
   });
 
-  it('should create a gain node with a start time of 5 and a stop time of 7', function(){
+  it('should create a gain node with a start time of 5 and a stop time of 7', function () {
     const createNewGainNodeSpy = sinon.spy(musicPlayer, 'createNewGainNode');
     const createGainSpy = sinon.spy(fakeWindow.AudioContext.prototype, 'createGain');
 
@@ -78,9 +87,29 @@ describe('Musical Player', function () {
     const setValueAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.setValueAtTime.args[0];
     const linearRampToValueAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.linearRampToValueAtTime.args[0];
     const setTargetAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.setTargetAtTime.args[0];
-    
+
     assert.equal(setValueAtTimeArgs[1], startTime, `Paramter value was actually ${setValueAtTimeArgs[1]}`);
     assert.equal(linearRampToValueAtTimeArgs[1], stopTime, `Paramter value was actually ${linearRampToValueAtTimeArgs[1]}`);
     assert.equal(setTargetAtTimeArgs[1], stopTime, `Paramter value was actually ${setTargetAtTimeArgs[1]}`);
-  })
+  });
+
+  it('should create an oscilator node for note G4, 392hz, and a start time of 5', function () {
+    const createNewOscillatorNodeSpy = sinon.spy(musicPlayer, 'createNewOscillatorNode');
+    const createOscillatorSpy = sinon.spy(fakeWindow.AudioContext.prototype, 'createOscillator');
+
+    const fakeContext = new fakeWindow.AudioContext();
+    const g4Frequency = 392.00;
+    const startTime = 5;
+
+
+    const newOscillator = musicPlayer.createNewOscillatorNode(fakeContext, g4Frequency, startTime);
+
+    assert(createNewOscillatorNodeSpy.calledOnce, `createNewOscillatorNode was called ${createNewOscillatorNodeSpy.callCount} time(s)`);
+    assert(createOscillatorSpy.calledOnce, `createOscillator was called ${createOscillatorSpy.callCount} time(s)`);
+
+    const setTargetAtTimeArgs = createOscillatorSpy.returnValues[0].frequency.setTargetAtTime.args[0];
+    
+    assert.equal(setTargetAtTimeArgs[0], g4Frequency);
+    assert.equal(setTargetAtTimeArgs[1], startTime)
+  });
 });

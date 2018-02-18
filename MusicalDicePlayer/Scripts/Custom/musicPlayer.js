@@ -48,6 +48,13 @@ function buildApi(window) {
             newGainNode.gain.setTargetAtTime(0, stopTime, 0);
 
             return newGainNode;
+        },
+        createNewOscillatorNode: function(context, noteFrequencyHz, startTime){
+            let newOscillator = context.createOscillator();
+            newOscillator.type = 'square';
+            newOscillator.frequency.setTargetAtTime(noteFrequencyHz, startTime, 0);
+
+            return newOscillator;
         }
     }
 
