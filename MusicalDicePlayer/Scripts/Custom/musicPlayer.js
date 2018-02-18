@@ -41,6 +41,14 @@ function buildApi(window) {
 
             return { start: start, stop: stop };
         },
+        createNewGainNode: function(context, startTime, stopTime){
+            let newGainNode = context.createGain();
+            newGainNode.gain.setValueAtTime(1, startTime);
+            newGainNode.gain.linearRampToValueAtTime(0.5, stopTime);
+            newGainNode.gain.setTargetAtTime(0, stopTime, 0);
+
+            return newGainNode;
+        }
     }
 
     window.exportedFunctions = exportedFunctions;

@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const musicPlayerApi = require('../../MusicalDicePlayer/Scripts/Custom/musicPlayer');
+const sinon = require('sinon');
 
 describe('Musical Player', function () {
   let noteNames = {};
@@ -14,9 +15,12 @@ describe('Musical Player', function () {
   fakeWindow.AudioContext.prototype.createGain = function(){
     return {
       gain: {
-        value: 0
+        value: 0,
+        setValueAtTime: sinon.spy(),
+        linearRampToValueAtTime: sinon.spy(),
+        setTargetAtTime: sinon.spy()
       },
-      connect: function(destination){}
+      connect: sinon.spy()
     }
   };
 
@@ -57,4 +61,26 @@ describe('Musical Player', function () {
     assert.equal(noteTiming.start, expectedStartTime);
     assert.equal(noteTiming.stop, expectedStopTime);
   });
+
+  it('should create a gain node with a start time of 5 and a stop time of 7', function(){
+    const createNewGainNodeSpy = sinon.spy(musicPlayer, 'createNewGainNode');
+    const createGainSpy = sinon.spy(fakeWindow.AudioContext.prototype, 'createGain');
+
+    const fakeContext = new fakeWindow.AudioContext();
+    const startTime = 5;
+    const stopTime = 7;
+
+    const newGain = musicPlayer.createNewGainNode(fakeContext, startTime, stopTime);
+
+    assert(createNewGainNodeSpy.calledOnce, `createNewGainNode was called ${createNewGainNodeSpy.callCount} time(s)`);
+    assert(createGainSpy.calledOnce, `createGain was called ${createGainSpy.callCount} time(s)`);
+
+    const setValueAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.setValueAtTime.args[0];
+    const linearRampToValueAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.linearRampToValueAtTime.args[0];
+    const setTargetAtTimeArgs = createNewGainNodeSpy.returnValues[0].gain.setTargetAtTime.args[0];
+    
+    assert.equal(setValueAtTimeArgs[1], startTime, `Paramter value was actually ${setValueAtTimeArgs[1]}`);
+    assert.equal(linearRampToValueAtTimeArgs[1], stopTime, `Paramter value was actually ${linearRampToValueAtTimeArgs[1]}`);
+    assert.equal(setTargetAtTimeArgs[1], stopTime, `Paramter value was actually ${setTargetAtTimeArgs[1]}`);
+  })
 });
