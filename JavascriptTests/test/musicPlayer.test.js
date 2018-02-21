@@ -20,7 +20,7 @@ describe('Musical Player', function () {
         linearRampToValueAtTime: sinon.spy(),
         setTargetAtTime: sinon.spy()
       },
-      connect: sinon.spy()
+      connect: sinon.spy(),
     }
   };
 
@@ -29,7 +29,9 @@ describe('Musical Player', function () {
       type: sinon.spy(),
       frequency: {
         setTargetAtTime: sinon.spy()
-      }
+      },
+      connect: sinon.spy(),
+      start: sinon.spy()
     }
   };
 
@@ -91,6 +93,9 @@ describe('Musical Player', function () {
     assert.equal(setValueAtTimeArgs[1], startTime, `Paramter value was actually ${setValueAtTimeArgs[1]}`);
     assert.equal(linearRampToValueAtTimeArgs[1], stopTime, `Paramter value was actually ${linearRampToValueAtTimeArgs[1]}`);
     assert.equal(setTargetAtTimeArgs[1], stopTime, `Paramter value was actually ${setTargetAtTimeArgs[1]}`);
+
+    fakeWindow.AudioContext.prototype.createGain.restore();
+    musicPlayer.createNewGainNode.restore();
   });
 
   it('should create an oscilator node for note G4, 392hz, and a start time of 5', function () {
@@ -108,8 +113,47 @@ describe('Musical Player', function () {
     assert(createOscillatorSpy.calledOnce, `createOscillator was called ${createOscillatorSpy.callCount} time(s)`);
 
     const setTargetAtTimeArgs = createOscillatorSpy.returnValues[0].frequency.setTargetAtTime.args[0];
-    
+
     assert.equal(setTargetAtTimeArgs[0], g4Frequency);
     assert.equal(setTargetAtTimeArgs[1], startTime)
+
+
+    fakeWindow.AudioContext.prototype.createOscillator.restore();
+    musicPlayer.createNewOscillatorNode.restore();
+  });
+
+  it('should play a sound given the note D4, a start beat of 2, and a duration of 0.5', function () {
+    const playNoteSpy = sinon.spy(musicPlayer, 'playNote');
+    const calculateFrequencyForNoteSpy = sinon.spy(musicPlayer, 'calculateFrequencyForNote');
+    const getNoteStartAndStopTimesSpy = sinon.spy(musicPlayer, 'getNoteStartAndStopTimes');
+    const createNewGainNodeSpy = sinon.spy(musicPlayer, 'createNewGainNode');
+    const createNewOscillatorNodeSpy = sinon.spy(musicPlayer, 'createNewOscillatorNode')
+
+
+
+    const fakeContext = new fakeWindow.AudioContext();
+    const note = 'D4';
+
+    const startBeat = 2;
+    const durationBeat = 0.5;
+
+    musicPlayer.playNote(fakeContext, note, startBeat, durationBeat);
+    
+    assert(playNoteSpy.calledOnce, `playNote was called ${playNoteSpy.callCount} time(s)`);
+    assert(calculateFrequencyForNoteSpy.calledOnce, `calculateFrequencyForNote was called ${calculateFrequencyForNoteSpy.callCount} time(s)`);
+    assert(getNoteStartAndStopTimesSpy.calledOnce, `getNoteStartAndStopTimes was called ${getNoteStartAndStopTimesSpy.callCount} time(s)`);
+    assert(createNewGainNodeSpy.calledOnce, `createNewGainNode was called ${createNewGainNodeSpy.callCount} time(s)`);
+    assert(createNewOscillatorNodeSpy.calledOnce, `createNewOscillatorNode was called ${createNewOscillatorNodeSpy.callCount} time(s)`);
+
+    assert(createNewGainNodeSpy.returnValues[0].connect.calledOnce, `newGainNode.connect was called ${createNewGainNodeSpy.returnValues[0].connect.callCount} time(s)`);
+    assert(createNewOscillatorNodeSpy.returnValues[0].connect.calledOnce, `newOscillatorNode.connect was called ${createNewOscillatorNodeSpy.returnValues[0].connect.callCount} time(s)`);
+    assert(createNewOscillatorNodeSpy.returnValues[0].start.calledOnce, `newOscillatorNode.start was called ${createNewOscillatorNodeSpy.returnValues[0].start.callCount} time(s)`);    
+    assert(createNewOscillatorNodeSpy.returnValues[0].stop.calledOnce, `newOscillatorNode.stop was called ${createNewOscillatorNodeSpy.returnValues[0].stop.callCount} time(s)`);    
+
+    musicPlayer.playNote.restore();
+    musicPlayer.calculateFrequencyForNote.restore();
+    musicPlayer.getNoteStartAndStopTimes.restore();
+    musicPlayer.createNewGainNode.restore();
+    musicPlayer.createNewOscillatorNode.restore();
   });
 });

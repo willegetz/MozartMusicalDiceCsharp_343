@@ -55,6 +55,23 @@ function buildApi(window) {
             newOscillator.frequency.setTargetAtTime(noteFrequencyHz, startTime, 0);
 
             return newOscillator;
+        },
+        playNote: function(context, note, startBeat, durationBeat){
+            const octaveOfNote = this.buildNoteIndex()[note];
+            const frequencyOfNote = this.calculateFrequencyForNote(octaveOfNote);
+            const noteTiming = this.getNoteStartAndStopTimes(startBeat, durationBeat);
+
+            const newGainNode = this.createNewGainNode(context, noteTiming.start, noteTiming.stop);
+            const newOscillator = this.createNewOscillatorNode(context, frequencyOfNote, noteTiming.start);
+
+            // connect masterGain to gain
+            newGainNode.connect(mastervolume);
+
+            // connect gain to oscillator
+            newOscillator.connect(newGainNode);
+            // add start time to oscillator
+            newOscillator.start(noteTiming.start);
+            // add stop time to oscillator
         }
     }
 
