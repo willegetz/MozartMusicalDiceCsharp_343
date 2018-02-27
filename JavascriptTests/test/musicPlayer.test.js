@@ -31,12 +31,13 @@ describe('Musical Player', function () {
         setTargetAtTime: sinon.spy()
       },
       connect: sinon.spy(),
-      start: sinon.spy()
+      start: sinon.spy(),
+      stop: sinon.spy()
     }
   };
 
   musicPlayerApi(fakeWindow);
-  musicPlayer = fakeWindow.exportedFunctions;
+  musicPlayer = fakeWindow.musicPlayer;
 
   beforeEach(function () {
     noteNames = musicPlayer.buildNoteIndex();
@@ -122,22 +123,19 @@ describe('Musical Player', function () {
     musicPlayer.createNewOscillatorNode.restore();
   });
 
-  it('should play a sound given the note D4, a start beat of 2, and a duration of 0.5', function () {
+  it('should connect all the pieces needed to play a note together', function () {
     const playNoteSpy = sinon.spy(musicPlayer, 'playNote');
     const calculateFrequencyForNoteSpy = sinon.spy(musicPlayer, 'calculateFrequencyForNote');
     const getNoteStartAndStopTimesSpy = sinon.spy(musicPlayer, 'getNoteStartAndStopTimes');
     const createNewGainNodeSpy = sinon.spy(musicPlayer, 'createNewGainNode');
     const createNewOscillatorNodeSpy = sinon.spy(musicPlayer, 'createNewOscillatorNode')
 
-
-
-    const fakeContext = new fakeWindow.AudioContext();
     const note = 'D4';
 
     const startBeat = 2;
     const durationBeat = 0.5;
 
-    musicPlayer.playNote(fakeContext, note, startBeat, durationBeat);
+    musicPlayer.playNote(note, startBeat, durationBeat);
     
     assert(playNoteSpy.calledOnce, `playNote was called ${playNoteSpy.callCount} time(s)`);
     assert(calculateFrequencyForNoteSpy.calledOnce, `calculateFrequencyForNote was called ${calculateFrequencyForNoteSpy.callCount} time(s)`);
@@ -156,4 +154,8 @@ describe('Musical Player', function () {
     musicPlayer.createNewGainNode.restore();
     musicPlayer.createNewOscillatorNode.restore();
   });
+
+  // Need a way to stop the music at any time.
+  // Need a way to stop the music if you want to start it again
+  // The oscillator node doesn't produce crisp sound for some of the lower register notes
 });

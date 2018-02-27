@@ -15,7 +15,7 @@ function buildApi(window) {
     const semitoneFrequencyRatio = Math.pow(2, (1 / 12));
     const tempo = 120;
 
-    const exportedFunctions = {
+    const musicPlayer = {
         buildNoteIndex: function () {
             let notenames = {};
             "C C# D D# E F F# G G# A A# B".split(" ").forEach((n, j) => {
@@ -56,7 +56,7 @@ function buildApi(window) {
 
             return newOscillator;
         },
-        playNote: function(context, note, startBeat, durationBeat){
+        playNote: function(note, startBeat, durationBeat){
             const octaveOfNote = this.buildNoteIndex()[note];
             const frequencyOfNote = this.calculateFrequencyForNote(octaveOfNote);
             const noteTiming = this.getNoteStartAndStopTimes(startBeat, durationBeat);
@@ -64,18 +64,15 @@ function buildApi(window) {
             const newGainNode = this.createNewGainNode(context, noteTiming.start, noteTiming.stop);
             const newOscillator = this.createNewOscillatorNode(context, frequencyOfNote, noteTiming.start);
 
-            // connect masterGain to gain
             newGainNode.connect(mastervolume);
 
-            // connect gain to oscillator
             newOscillator.connect(newGainNode);
-            // add start time to oscillator
             newOscillator.start(noteTiming.start);
-            // add stop time to oscillator
+            newOscillator.stop(noteTiming.stop);
         }
     }
 
-    window.exportedFunctions = exportedFunctions;
+    window.musicPlayer = musicPlayer;
 }
 
 
